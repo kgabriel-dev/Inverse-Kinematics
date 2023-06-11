@@ -1,9 +1,10 @@
 class RobotArm {
     constructor(a, b, len) {
         this.a = a;
+        this.b = b;
         this.len = len;
         
-        this.b = this.calculateB(b);
+        this.calculateB();
     }
 
     draw() {
@@ -13,15 +14,21 @@ class RobotArm {
         line(this.a.x, this.a.y, this.b.x, this.b.y);
     }
 
-    calculateB(b) {
-        let dx = b.x - this.a.x;
-        let dy = b.y - this.a.y;
+    calculateB() {
+        const deltaX = this.b.x - this.a.x;
+        const deltaY = this.b.y - this.a.y;
 
-        let dist = Math.sqrt(dx*dx + dy*dy);
+        const deltaLength = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-        let ratio = this.len / dist;
+        const ratioX = deltaX / deltaLength,
+            ratioY = deltaY / deltaLength;
 
-        return new Point(this.a.x + dx * ratio, this.a.y + dy * ratio);
+        const newBPosition = {
+            x: this.a.x + ratioX * this.len,
+            y: this.a.y + ratioY * this.len
+        };
+
+        this.b = newBPosition;
     }
 
     calculateA() {

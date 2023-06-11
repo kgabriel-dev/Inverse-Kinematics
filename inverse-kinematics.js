@@ -26,5 +26,6 @@ function draw() {
 }
 
 function mouseClicked() {
+    lastClickedPosition = new Point(mouseX, mouseY);
     moveUsingFabrik(new Point(mouseX, mouseY), robotArms);
 }
