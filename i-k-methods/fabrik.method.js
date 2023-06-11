@@ -5,11 +5,16 @@ function moveUsingFabrik(target, robotArms) {
 }
 
 function _fabrikBackwards(target, robotArms) {
-    const lastArm = robotArms[robotArms.length - 1],
-        prevArm = robotArms[robotArms.length - 2];
+    for(let i = robotArms.length; i > 0; i--) {
+        const currArm = robotArms[i - 1],
+            nextArm = robotArms[i - 2],
+            prevArm = robotArms[i];
 
-    lastArm.b = target;
-    lastArm.a = prevArm.b;
-    
-    lastArm.calculateA();
+        console.log(`curr: ${currArm}, next: ${nextArm}, prev: ${prevArm}`);
+
+        currArm.b = prevArm ? prevArm.a : target;
+        currArm.a = nextArm ? nextArm.b : FIXATION;
+
+        currArm.calculateA();
+    }
 }

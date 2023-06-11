@@ -33,8 +33,6 @@ class RobotArm {
         const ratioX = deltaX / deltaLength,
             ratioY = deltaY / deltaLength;
 
-        console.log(ratioX, ratioY);
-
         const newAPosition = {
             x: this.b.x + ratioX * this.len,
             y: this.b.y + ratioY * this.len
