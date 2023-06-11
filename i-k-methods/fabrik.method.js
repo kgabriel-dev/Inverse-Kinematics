@@ -1,8 +1,22 @@
-const epsilon = 0.1;
 
 function moveUsingFabrik(target, robotArms) {
-    _fabrikBackwards(target, robotArms);
-    _fabrikForwards(target, robotArms);
+    const epsilon = 1;
+
+    let steps = 0;
+    let newError = Number.MAX_SAFE_INTEGER - 1, prevError;
+
+    do {
+        steps++;
+        prevError = newError;
+
+        _fabrikBackwards(target, robotArms);
+        _fabrikForwards(target, robotArms);
+        
+        newError = calculateDistance(target, robotArms[robotArms.length - 1].b);
+
+    } while (newError > epsilon && newError < prevError);
+
+    console.log(`Steps: ${steps}`);
 }
 
 function _fabrikBackwards(target, robotArms) {
