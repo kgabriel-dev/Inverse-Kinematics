@@ -23,4 +23,23 @@ class RobotArm {
 
         return new Point(this.a.x + dx * ratio, this.a.y + dy * ratio);
     }
+
+    calculateA() {
+        const deltaX = this.a.x - this.b.x,
+        deltaY = this.a.y - this.b.y;
+
+        const deltaLength = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+        const ratioX = deltaX / deltaLength,
+            ratioY = deltaY / deltaLength;
+
+        console.log(ratioX, ratioY);
+
+        const newAPosition = {
+            x: this.b.x + ratioX * this.len,
+            y: this.b.y + ratioY * this.len
+        }
+
+        this.a = newAPosition;
+    }
 }
