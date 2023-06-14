@@ -7,9 +7,9 @@ class RobotArm {
         this.calculateB();
     }
 
-    draw() {
-        stroke(0);
-        strokeWeight(2);
+    draw(color=0, weight=2) {
+        stroke(color);
+        strokeWeight(weight);
         
         line(this.a.x, this.a.y, this.b.x, this.b.y);
     }

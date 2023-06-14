@@ -8,15 +8,16 @@ let robotArms = [];
 function setup() {
     createCanvas(WIDTH, HEIGHT);
 
-    for(let i = 0; i < 2; i++)
-        robotArms.push(new RobotArm({x: FIXATION.x, y: FIXATION.y + i*100}, {x: FIXATION.x, y: FIXATION.y + (i+1) * 100}, 100));
+    const robotArmLength = 100;
+    for(let i = 0; i < 3; i++)
+        robotArms.push(new RobotArm({x: FIXATION.x, y: FIXATION.y + i*robotArmLength}, {x: FIXATION.x, y: FIXATION.y + (i+1) * robotArmLength}, robotArmLength));
 }
 
 function draw() {
-    background(128);
+    background(150);
 
     for(let i = 0; i < robotArms.length; i++) {
-        robotArms[i].draw();
+        robotArms[i].draw(0, robotArms.length - i + 1);
     }
 
     if(lastClickedPosition) {
