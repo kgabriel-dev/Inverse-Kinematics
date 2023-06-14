@@ -1,5 +1,6 @@
 const WIDTH = 750;
 const HEIGHT = 500;
+const FIXATION = new Point(200, 100);
 
 let lastClickedPosition = null;
 let robotArms = [];
@@ -8,7 +9,7 @@ function setup() {
     createCanvas(WIDTH, HEIGHT);
 
     for(let i = 0; i < 2; i++)
-        robotArms.push(new RobotArm({x: WIDTH/2, y: HEIGHT/2 + i*100}, {x: WIDTH/2, y: HEIGHT/2 + (i+1) * 100}, 100));
+        robotArms.push(new RobotArm({x: FIXATION.x, y: FIXATION.y + i*100}, {x: FIXATION.x, y: FIXATION.y + (i+1) * 100}, 100));
 }
 
 function draw() {
@@ -25,5 +26,6 @@ function draw() {
 }
 
 function mouseClicked() {
-    lastClickedPosition = {x: mouseX, y: mouseY};
+    lastClickedPosition = new Point(mouseX, mouseY);
+    moveUsingFabrik(new Point(mouseX, mouseY), robotArms);
 }
