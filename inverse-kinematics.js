@@ -73,14 +73,19 @@ function mouseClickedInCanvas() {
 }
 
 function moveArm(target, arms) {
+    const stepText = document.getElementById('steps');
+    let stepsNeeded = 'ERROR';
+
     switch(variableMap['algorithm']['val']) {
         case 'fabrik':
-            moveUsingFabrik(target, arms);
+            stepsNeeded = moveUsingFabrik(target, arms);
             break;
         
         default:
-            moveUsingFabrik(target, arms);
+            stepsNeeded = moveUsingFabrik(target, arms);
     }
+
+    stepText.innerText = stepsNeeded;
 }
 
 function valueChange(id) {
