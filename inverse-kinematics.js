@@ -6,8 +6,9 @@ let robotArms = [];
 let totalArmsLength = 0;
 
 const variableMap = {
-    'arm-length': 0,
-    'arms-number': 0
+    'arm-length': {val: 0, func: Number},
+    'arms-number': {val: 0, func: Number},
+    'algorithm': {val: 'fabrik', func: String}
 };
 
 function setup() {
@@ -17,10 +18,11 @@ function setup() {
     canvas.parent('canvas');
     canvas.mouseClicked(mouseClickedInCanvas);
 
-    const robotArmLength = Math.ceil(SIZE / 2 * 0.8 / variableMap['arms-number']);
-    for(let i = 0; i < variableMap['arms-number']; i++)
+    const robotArmLength = Math.ceil(SIZE / 2 * 0.8 / variableMap['arms-number']['val']);
+    for(let i = 0; i < variableMap['arms-number']['val']; i++)
         robotArms.push(new RobotArm({x: FIXATION.x, y: FIXATION.y + i*robotArmLength}, {x: FIXATION.x, y: FIXATION.y + (i+1) * robotArmLength}, robotArmLength));
     document.getElementById('arm-length').value = robotArmLength;
+    variableMap['arm-length']['val'] = robotArmLength;
 
     totalArmsLength = getTotalArmsLength(robotArms);
 
@@ -29,7 +31,7 @@ function setup() {
         FIXATION.y + Math.sin(Math.random() * 2 * Math.PI) * (totalArmsLength / 2)
     );
 
-    moveUsingFabrik(lastClickedPosition, robotArms);
+    moveArm(lastClickedPosition, robotArms);
 }
 
 function draw() {
@@ -67,46 +69,50 @@ function draw() {
 
 function mouseClickedInCanvas() {
     lastClickedPosition = new Point(mouseX, mouseY);
-    moveUsingFabrik(new Point(mouseX, mouseY), robotArms);
+    moveArm(lastClickedPosition, robotArms);
+}
+
+function moveArm(target, arms) {
+    switch(variableMap['algorithm']['val']) {
+        case 'fabrik':
+            moveUsingFabrik(target, arms);
+            break;
+        
+        default:
+            moveUsingFabrik(target, arms);
+    }
 }
 
 function valueChange(id) {
     let value = document.getElementById(id).value;
-    
-    if(Number.isNaN(value)) return;
-    value = Number(value);
 
-    if(variableMap[id])
-        variableMap[id] = value;
+    if(variableMap[id]) {
+        value = variableMap[id]['func'](value);
+        variableMap[id]['val'] = value;
+    }
     else return;
-    
+
     if(id == 'arm-length') {
         robotArms.forEach(arm => arm.len = value);
         totalArmsLength = getTotalArmsLength(robotArms);
 
-        moveUsingFabrik(lastClickedPosition, robotArms);
+        moveArm(lastClickedPosition, robotArms);
     }
     else if(id == 'arms-number') {
         robotArms = [];
-        const robotArmLength = variableMap['arm-length'];
+        const robotArmLength = variableMap['arm-length']['val'];
 
         for(let i = 0; i < value; i++)
             robotArms.push(new RobotArm({x: FIXATION.x, y: FIXATION.y + i*robotArmLength}, {x: FIXATION.x, y: FIXATION.y + (i+1) * robotArmLength}, robotArmLength));
         
         totalArmsLength = getTotalArmsLength(robotArms);
-        moveUsingFabrik(lastClickedPosition, robotArms);
+        moveArm(lastClickedPosition, robotArms);
     }
 }
 
 function readInValues() {
     for(let id in variableMap) {
         let value = document.getElementById(id).value;
-        
-        if(Number.isNaN(value)) {
-            console.log(`Value of ${id} is NaN`);
-            continue;
-        };
-        
-        variableMap[id] = Number(value);
+        variableMap[id]['val'] = variableMap[id]['func'](value);
     }
 }
