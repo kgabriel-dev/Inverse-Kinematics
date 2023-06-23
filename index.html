@@ -1,6 +1,8 @@
 <html>
     <head>
         <title>Inverse Kinematics Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
         <script src="https://kgabriel.dev/libraries/p5.min.js"></script>
         <script src="utilities.class.js"></script>
         <script src="robot-arm.class.js"></script>
@@ -10,7 +12,41 @@
         <script src="inverse-kinematics.js"></script>
     </head>
 
-    <body>
-        <main></main>
+    <body style="text-align: center">
+        <h1>Inverse Kinematics Project</h1>
+
+        <div>
+            <p>This project uses inverse kinematics to let the arm touch the location you clicked at.</p>
+            <p>Below, you can choose the algorithm the arm uses to calculate how it needs to move.</p>
+            <p>You can also change the arm itself, e.g. change the number of how many arms it consists and how long they are.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1em; margin-top: 2em;">
+            <div style="display: flex; justify-content: center; gap: 1em; flex-wrap: wrap;">
+                <div style="max-width: 30%; min-width: 100px">
+                    <label for="arm-length">Length of each arm: </label>
+                    <input type="number" id="arm-length" value="50" onchange="valueChange('arm-length')" style="width: 5em;">
+                </div>
+                <div style="max-width: 30%; min-width: 100px">
+                    <label for="arms-number">Number of arms: </label>
+                    <input type="number" id="arms-number" value="3" min="2" onchange="valueChange('arms-number')" style="width: 5em;">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div style="max-width: 30%; min-width: 150px;">
+                    <label for="algorithm">Algorithm: </label>
+                    <select id="algorithm" onselect="valueChange('algorithm')">
+                        <option value="fabrik" selected>FABRIK</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 4em; padding: 0 2em;">
+            <h2>Click anywhere inside this box to let the arms move to the clicked position.</h2>
+            <div style="text-align: center;">
+                (Steps needed to reach this point: <span id="steps"></span>)
+            </div>
+            <span id="canvas"></span>
+        </div>
     </body>
 </html>

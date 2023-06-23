@@ -16,7 +16,7 @@ function moveUsingFabrik(target, robotArms) {
 
     } while (newError > epsilon && newError < prevError);
 
-    console.log(`Steps: ${steps}`);
+    return steps;
 }
 
 function _fabrikBackwards(target, robotArms) {
